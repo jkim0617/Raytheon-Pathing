@@ -191,10 +191,10 @@ def run_annealing(
 
 def plot_occ_grid_with_path(occ_grid: np.ndarray, best_path: np.ndarray) -> None:
     plt.figure(figsize=(7, 7))
-    plt.imshow(occ_grid, cmap="gray", origin="lower")
-    plt.plot(best_path[:, 0] - 1, best_path[:, 1] - 1, "-bo", linewidth=2, markersize=4)
-    plt.plot(best_path[0, 0] - 1, best_path[0, 1] - 1, "gs", markersize=10)
-    plt.plot(best_path[-1, 0] - 1, best_path[-1, 1] - 1, "ms", markersize=10)
+    plt.imshow(occ_grid, cmap="gray", origin="upper")
+    plt.plot(best_path[:, 0] - 0.5, best_path[:, 1] - 0.5, "-bo", linewidth=2, markersize=4)
+    plt.plot(best_path[0, 0] - 0.5, best_path[0, 1] - 0.5, "gs", markersize=10)
+    plt.plot(best_path[-1, 0] - 0.5, best_path[-1, 1] - 0.5, "ms", markersize=10)
     plt.title("Best Path on Occupancy Grid")
     plt.axis("equal")
     plt.show()

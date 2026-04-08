@@ -54,7 +54,7 @@ def main():
     max_waypoints = 5
     improvement_threshold = 0.01
     required_stable = 2
-    maxiter = 200
+    maxiter = 100
 
     show_intermediate_plots = True
 

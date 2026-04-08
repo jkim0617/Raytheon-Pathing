@@ -151,10 +151,12 @@ def overlay_path_on_image(field_bgr: np.ndarray, occ_grid: np.ndarray, best_path
     img_h, img_w = field_bgr.shape[:2]
     grid_rows, grid_cols = occ_grid.shape
 
+    # Convert grid coordinates directly into image coordinates
+    # NO vertical flip, because planner y already matches image row direction
     path_px = []
     for xg, yg in best_path:
         xp = (xg - 0.5) / grid_cols * img_w
-        yp = img_h - (yg - 0.5) / grid_rows * img_h
+        yp = (yg - 0.5) / grid_rows * img_h
         path_px.append((xp, yp))
     path_px = np.array(path_px)
 
@@ -167,13 +169,21 @@ def overlay_path_on_image(field_bgr: np.ndarray, occ_grid: np.ndarray, best_path
 
     for r, c in zip(row_occ, col_occ):
         x1 = c * cell_w
-        y1 = img_h - (r + 1) * cell_h
-        rect = plt.Rectangle((x1, y1), cell_w, cell_h, fill=False, edgecolor="red", linewidth=0.5)
+        y1 = r * cell_h
+        rect = plt.Rectangle(
+            (x1, y1),
+            cell_w,
+            cell_h,
+            fill=False,
+            edgecolor="red",
+            linewidth=0.5
+        )
         ax.add_patch(rect)
 
     ax.plot(path_px[:, 0], path_px[:, 1], "-b", linewidth=3)
     ax.plot(path_px[:, 0], path_px[:, 1], "yo", markersize=5)
     ax.plot(path_px[0, 0], path_px[0, 1], "gs", markersize=10)
     ax.plot(path_px[-1, 0], path_px[-1, 1], "ms", markersize=10)
+
     ax.set_title("Best Path Over Original Image With Obstacle Cells")
     plt.show()
